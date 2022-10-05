@@ -43,4 +43,11 @@ public class User extends BaseTimeJpaEntity {
     this.authProvider = authProvider;
   }
 
+
+  public User updateProfile(String name, String image){
+    this.name = name;
+    this.userImage = image;
+    return this;
+  }
+
 }
