@@ -48,6 +48,7 @@ public class GlobalExceptionHandler {
    */
   @ExceptionHandler(Exception.class)
   public ResponseEntity<?> internalServerException(Exception e) throws IOException {
+    e.printStackTrace();
     return JsonResponse.fail(ErrorType.INTERNAL_SERVER_ERROR, "서버 에러");
   }
 }

@@ -1,0 +1,54 @@
+package camandedit.server.workspace.domain;
+
+import camandedit.server.global.common.BaseTimeJpaEntity;
+import camandedit.server.user.domain.User;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+public class WorkSpace extends BaseTimeJpaEntity {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "workspace_id")
+  private Long id;
+
+  @Column(nullable = false)
+  private String name;
+
+  private String logoImage;
+
+  private Long adminId;
+
+  @OneToMany(mappedBy = "workSpace", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Set<WorkSpaceMember> workSpaceMembers = new HashSet<>();
+
+  @Builder
+  public WorkSpace(String name, String logoImage, Long adminId) {
+    this.name = name;
+    this.logoImage = logoImage;
+    this.adminId = adminId;
+  }
+
+  public static WorkSpace initWorkSpace(String name, String logoImage, Long userId) {
+    return WorkSpace.builder().name(name).logoImage(logoImage).adminId(userId)
+        .build();
+  }
+
+  public void addMember(WorkSpaceMember workSpaceMember){
+    workSpaceMembers.add(workSpaceMember);
+  }
+}
