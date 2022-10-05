@@ -23,12 +23,26 @@ public class OAuthAttributes {
 
   public static OAuthAttributes of(String registtrationId, String userNameAttributeName,
       Map<String, Object> attributes) {
+    System.out.println(registtrationId);
     return switch (registtrationId) {
       case "google" -> ofGoogle(userNameAttributeName, attributes);
+      case "kakao" -> ofKakao(userNameAttributeName, attributes);
       default -> throw new RuntimeException("not support");
     };
   }
 
+  private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String ,Object> attributes){
+    Map<String, Object> account = (Map<String, Object>) attributes.get("kakao_account");
+    Map<String, Object> profile = (Map<String, Object>) account.get("profile");
+    return OAuthAttributes.builder()
+        .name((String) profile.get("nickname"))
+        .email((String) account.get("email"))
+        .picture((String) profile.get("profile_image_url"))
+        .attributes(attributes)
+        .nameAttributeKey(userNameAttributeName)
+        .authProvider(AuthProvider.KAKAO)
+        .build();
+  }
   private static OAuthAttributes ofGoogle(String userNameAttributeName,
       Map<String, Object> attributes) {
     return OAuthAttributes.builder()
@@ -46,7 +60,7 @@ public class OAuthAttributes {
         .name(name)
         .email(email)
         .userImage(picture)
-        .authProvider(AuthProvider.GOOGLE)
+        .authProvider(authProvider)
         .build();
   }
 }

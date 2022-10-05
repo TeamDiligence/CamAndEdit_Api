@@ -31,8 +31,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     String registrationId = userRequest.getClientRegistration().getRegistrationId();
     String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
         .getUserInfoEndpoint().getUserNameAttributeName();
-    log.info("registrationId = " + registrationId);
-    log.info("userNameAttributeName = " + userNameAttributeName);
     OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName,
         oAuth2User.getAttributes());
     User user = saveAndUpdate(attributes);
@@ -42,7 +40,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
   private User saveAndUpdate(OAuthAttributes attributes) {
     String eamil = attributes.getEmail();
     AuthProvider authProvider = attributes.getAuthProvider();
-
     User findUser = jpaUserRepository.findByEmailAndAuthProvider(eamil, authProvider)
         .map((user -> user.updateProfile(attributes.getName(), attributes.getPicture())))
         .orElseGet(() -> jpaUserRepository.save(attributes.toEntity()));

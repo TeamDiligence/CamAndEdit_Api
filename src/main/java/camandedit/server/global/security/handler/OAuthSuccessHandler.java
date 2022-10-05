@@ -24,7 +24,6 @@ public class OAuthSuccessHandler implements AuthenticationSuccessHandler {
   @Override
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
       Authentication authentication) throws IOException, ServletException {
-    log.info("oauth success handler");
     OAuthUserPrincipal userPrincipal = (OAuthUserPrincipal) authentication.getPrincipal();
     String accessToken = jwtProvider.createAccessToken(userPrincipal.getUserId());
 
