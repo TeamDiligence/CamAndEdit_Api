@@ -4,8 +4,10 @@ import camandedit.server.global.config.web.JwtAuthUser;
 import camandedit.server.global.config.web.LoginUser;
 import camandedit.server.global.response.JsonResponse;
 import camandedit.server.user.application.UserFacade;
+import camandedit.server.user.application.dto.TokenResponse;
 import camandedit.server.user.application.dto.UserResponse;
 import camandedit.server.user.controller.dto.CreateUserRequest;
+import camandedit.server.user.controller.dto.LoginRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,5 +33,11 @@ public class UserController {
   public ResponseEntity<?> createUser(@RequestBody CreateUserRequest request) {
     userFacade.createUser(request.toCommand());
     return JsonResponse.ok(HttpStatus.CREATED, "가입 성공");
+  }
+
+  @PostMapping("/api/user/login")
+  public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+    TokenResponse tokenResponse = userFacade.login(request.toCommand());
+    return JsonResponse.okWithData(HttpStatus.OK, "로그인 성공", tokenResponse);
   }
 }

@@ -35,6 +35,7 @@ public class SecurityConfig {
     // 인증 허용
     http.authorizeRequests()
         .antMatchers(HttpMethod.POST, "/api/user").permitAll()
+        .antMatchers(HttpMethod.POST, "/api/user/login").permitAll()
         .antMatchers("/api/**").authenticated()
         .and()
         .apply(new JwtSecurityConfig(tokenProvider));

@@ -29,4 +29,10 @@ public class UserRepositoryImpl implements UserRepository {
   public boolean existByEmailByLocal(String email) {
     return jpaUserRepository.existsByEmailAndAuthProvider(email, AuthProvider.LOCAL);
   }
+
+  @Override
+  public User findByEmailAndAuthProvider(String email, AuthProvider authProvider) {
+    return jpaUserRepository.findByEmailAndAuthProvider(email, authProvider)
+        .orElse(null);
+  }
 }
