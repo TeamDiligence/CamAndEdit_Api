@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface JpaUserRepository extends JpaRepository<User, Long> {
 
   Optional<User> findByEmailAndAuthProvider(String email, AuthProvider authProvider);
+  Boolean existsByEmailAndAuthProvider(String email, AuthProvider authProvider);
 }

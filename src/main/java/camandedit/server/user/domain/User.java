@@ -23,12 +23,13 @@ public class User extends BaseTimeJpaEntity {
   @Column(name = "user_id")
   private Long id;
 
+  private String password;
+
   @Column(nullable = false)
   private String email;
   @Column(nullable = false)
   private String name;
 
-  @Column(nullable = false)
   private String userImage;
 
   @Enumerated(EnumType.STRING)
@@ -36,11 +37,12 @@ public class User extends BaseTimeJpaEntity {
   private AuthProvider authProvider;
 
   @Builder
-  public User(String email, String name, String userImage, AuthProvider authProvider) {
+  public User(String email, String name, String userImage, AuthProvider authProvider, String password) {
     this.email = email;
     this.name = name;
     this.userImage = userImage;
     this.authProvider = authProvider;
+    this.password = password;
   }
 
 
@@ -50,4 +52,7 @@ public class User extends BaseTimeJpaEntity {
     return this;
   }
 
+  public void encodePassword(String encodedPassword){
+    this.password = encodedPassword;
+  }
 }
