@@ -1,8 +1,7 @@
 package camandedit.server.global.security.handler;
 
 import camandedit.server.global.security.dto.OAuthUserPrincipal;
-import camandedit.server.global.security.jwt.JwtProvider;
-import com.sun.security.auth.UserPrincipal;
+import camandedit.server.user.domain.service.TokenProvider;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,13 +18,13 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class OAuthSuccessHandler implements AuthenticationSuccessHandler {
 
-  private final JwtProvider jwtProvider;
+  private final TokenProvider tokenProvider;
 
   @Override
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
       Authentication authentication) throws IOException, ServletException {
     OAuthUserPrincipal userPrincipal = (OAuthUserPrincipal) authentication.getPrincipal();
-    String accessToken = jwtProvider.createAccessToken(userPrincipal.getUserId());
+    String accessToken = tokenProvider.createToken(userPrincipal.getUser());
 
     response.setStatus(HttpStatus.OK.value());
     response.sendRedirect("http://localhost:3000/auth?accessToken="+accessToken);

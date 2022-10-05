@@ -1,11 +1,10 @@
 package camandedit.server.global.security;
 
-import camandedit.server.global.security.filter.JwtAuthenticationFilter;
-import camandedit.server.global.security.filter.JwtExceptionFilter;
+
 import camandedit.server.global.security.handler.JwtAuthenticationEntryPoint;
 import camandedit.server.global.security.handler.OAuthSuccessHandler;
-import camandedit.server.global.security.jwt.JwtResolver;
 import camandedit.server.global.security.service.CustomOAuth2UserService;
+import camandedit.server.user.domain.service.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +19,7 @@ public class SecurityConfig {
 
   private final CustomOAuth2UserService customOAuth2UserService;
   private final OAuthSuccessHandler oAuthSuccessHandler;
-  private final JwtResolver jwtResolver;
+  private final TokenProvider tokenProvider;
   private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
   @Bean
@@ -38,7 +37,7 @@ public class SecurityConfig {
         .antMatchers(HttpMethod.POST, "/api/user").permitAll()
         .antMatchers("/api/**").authenticated()
         .and()
-        .apply(new JwtSecurityConfig(jwtResolver));
+        .apply(new JwtSecurityConfig(tokenProvider));
 
     //OAuth
     http.oauth2Login()
@@ -46,7 +45,7 @@ public class SecurityConfig {
         .userInfoEndpoint().userService(customOAuth2UserService)
         .and()
         .authorizationEndpoint()
-        .baseUri("/oauth2/authentication");
+        .baseUri("/oauth");
     return http.build();
   }
 

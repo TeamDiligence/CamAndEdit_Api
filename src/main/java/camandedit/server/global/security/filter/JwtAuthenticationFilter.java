@@ -1,6 +1,6 @@
 package camandedit.server.global.security.filter;
 
-import camandedit.server.global.security.jwt.JwtResolver;
+import camandedit.server.user.domain.service.TokenProvider;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -14,18 +14,18 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-  private final JwtResolver jwtResolver;
+  private final TokenProvider tokenProvider;
 
-  public JwtAuthenticationFilter(JwtResolver jwtResolver) {
-    this.jwtResolver = jwtResolver;
+  public JwtAuthenticationFilter(TokenProvider tokenProvider) {
+    this.tokenProvider = tokenProvider;
   }
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
     String token = extractToken(request);
-    if (StringUtils.hasText(token) && jwtResolver.validationAccessToken(token)) {
-      Authentication authentication = jwtResolver.getAuthentication(token);
+    if (StringUtils.hasText(token) && tokenProvider.validationToken(token)) {
+      Authentication authentication = tokenProvider.getAuthentication(token);
       SecurityContext emptyContext = SecurityContextHolder.createEmptyContext();
       emptyContext.setAuthentication(authentication);
       SecurityContextHolder.setContext(emptyContext);

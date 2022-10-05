@@ -1,4 +1,4 @@
-package camandedit.server.global.security.exception;
+package camandedit.server.user.exception;
 
 import camandedit.server.global.exception.BusinessException;
 import camandedit.server.global.exception.ErrorType;

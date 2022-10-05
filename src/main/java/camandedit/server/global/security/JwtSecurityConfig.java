@@ -3,7 +3,7 @@ package camandedit.server.global.security;
 
 import camandedit.server.global.security.filter.JwtAuthenticationFilter;
 import camandedit.server.global.security.filter.JwtExceptionFilter;
-import camandedit.server.global.security.jwt.JwtResolver;
+import camandedit.server.user.domain.service.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,11 +14,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class JwtSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity>{
 
-  private final JwtResolver jwtResolver;
+  private final TokenProvider tokenProvider;
 
   @Override
   public void configure(HttpSecurity http) throws Exception {
-    JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtResolver);
+    JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(tokenProvider);
     JwtExceptionFilter jwtExceptionFilter = new JwtExceptionFilter();
     http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     http.addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class);
