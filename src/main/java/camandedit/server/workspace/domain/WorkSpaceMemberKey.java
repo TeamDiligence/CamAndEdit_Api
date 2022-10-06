@@ -3,7 +3,9 @@ package camandedit.server.workspace.domain;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import lombok.Getter;
 
+@Getter
 @Embeddable
 public class WorkSpaceMemberKey implements Serializable {
 

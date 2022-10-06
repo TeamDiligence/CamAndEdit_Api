@@ -10,5 +10,9 @@ public interface WorkSpaceRepository {
   WorkSpace saveWorkSpace(WorkSpace workSpace);
   List<WorkSpace> findAllByUserId(Long userId);
 
+  WorkSpace findByIdWithMeetingRoom(Long workSpaceId);
   void saveWorkSpaceMember(WorkSpaceMember workSpaceMember);
+
+  List<WorkSpaceMember> findWorkSpaceMembersByWorkSpaceId(Long userId, Long workspaceId);
+  WorkSpace findByIdWithMember(Long workSpaceId);
 }

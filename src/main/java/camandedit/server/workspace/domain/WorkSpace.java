@@ -1,8 +1,9 @@
 package camandedit.server.workspace.domain;
 
 import camandedit.server.global.common.BaseTimeJpaEntity;
-import camandedit.server.user.domain.User;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -36,6 +37,9 @@ public class WorkSpace extends BaseTimeJpaEntity {
   @OneToMany(mappedBy = "workSpace", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<WorkSpaceMember> workSpaceMembers = new HashSet<>();
 
+  @OneToMany(mappedBy = "workSpace", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<MeetingRoom> meetingRoomList = new ArrayList<>();
+
   @Builder
   public WorkSpace(String name, String logoImage, Long adminId) {
     this.name = name;
@@ -48,7 +52,12 @@ public class WorkSpace extends BaseTimeJpaEntity {
         .build();
   }
 
-  public void addMember(WorkSpaceMember workSpaceMember){
+  public void addMember(WorkSpaceMember workSpaceMember) {
     workSpaceMembers.add(workSpaceMember);
   }
+
+  public void addMeetingRoom(MeetingRoom meetingRoom){
+    meetingRoomList.add(meetingRoom);
+  }
+
 }
