@@ -33,7 +33,6 @@ public class WorkSpaceRepositoryImpl implements WorkSpaceRepository {
   @Override
   public WorkSpace findByIdWithMeetingRoom(Long workSpaceId) {
     WorkSpace workSpace = workSpaceQueryRepository.findByIdWithMeetingRoom(workSpaceId);
-    System.out.println(workSpaceId + " " + workSpace);
     if (workSpace == null) {
       throw new NotFoundResourceException("해당 워크스페이스를 찾을 수 없습니다.");
     }
@@ -62,5 +61,15 @@ public class WorkSpaceRepositoryImpl implements WorkSpaceRepository {
   @Override
   public List<WorkSpace> findAllByUserId(Long userId) {
     return workSpaceQueryRepository.findWorkSpaceListByUserId(userId);
+  }
+
+  @Override
+  public WorkSpaceMember findMember(Long workSpaceId, Long userId) {
+    WorkSpaceMember memberWithUser = workSpaceQueryRepository.findMemberWithUser(userId,
+        workSpaceId);
+    if(memberWithUser == null){
+      throw new NotFoundResourceException("해당 유저를 찾을 수 없습니다.");
+    }
+    return memberWithUser;
   }
 }

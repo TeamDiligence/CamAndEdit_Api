@@ -5,6 +5,7 @@ import camandedit.server.global.config.web.LoginUser;
 import camandedit.server.global.response.JsonResponse;
 import camandedit.server.workspace.application.WorkSpaceFacade;
 import camandedit.server.workspace.application.command.CreateWorkSpaceCommand;
+import camandedit.server.workspace.application.dto.MemberProfileResponse;
 import camandedit.server.workspace.application.dto.WorkSpaceMemberListResponse;
 import camandedit.server.workspace.application.dto.WorkSpaceResponse;
 import camandedit.server.workspace.controller.dto.CheckInviteRequest;
@@ -66,11 +67,17 @@ public class WorkSpaceController {
       @LoginUser JwtAuthUser user,
       @RequestBody CheckInviteRequest requestDto,
       @PathVariable("id") Long workSpaceId
-  ){
+  ) {
     workSpaceFacade.checkInvite(requestDto.toCommand(user.getUserId(), workSpaceId));
     return JsonResponse.ok(HttpStatus.OK, "초대 확인 성공");
   }
 
+  @GetMapping("/api/workspace/{id}/profile")
+  public ResponseEntity<?> getProfile(@LoginUser JwtAuthUser user,
+      @PathVariable("id") Long workSpaceId) {
+    MemberProfileResponse profile = workSpaceFacade.getProfile(workSpaceId, user.getUserId());
+    return JsonResponse.okWithData(HttpStatus.OK, "프로필 조회 성공", profile);
+  }
 
   @GetMapping("/api/workspace/{id}")
   public ResponseEntity<?> getWorkSpaceDetail(@PathVariable("id") Long workSpaceId) {

@@ -15,4 +15,6 @@ public interface WorkSpaceRepository {
 
   List<WorkSpaceMember> findWorkSpaceMembersByWorkSpaceId(Long userId, Long workspaceId);
   WorkSpace findByIdWithMember(Long workSpaceId);
+
+  WorkSpaceMember findMember(Long workSpaceId, Long userId);
 }

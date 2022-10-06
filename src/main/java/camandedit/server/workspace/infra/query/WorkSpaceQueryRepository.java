@@ -48,4 +48,12 @@ public class WorkSpaceQueryRepository {
         .where(workSpaceMember.workSpace.id.eq(workSpaceId).and(workSpaceMember.user.id.eq(userId)))
         .fetch();
   }
+
+  public WorkSpaceMember findMemberWithUser(Long userId, Long workSpaceId) {
+    return queryFactory.selectFrom(workSpaceMember)
+        .leftJoin(workSpaceMember.user, user).fetchJoin()
+        .where(workSpaceMember.user.id.eq(userId),
+            workSpaceMember.workSpace.id.eq(workSpaceId))
+        .fetchOne();
+  }
 }

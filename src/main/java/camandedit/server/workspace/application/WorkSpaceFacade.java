@@ -4,6 +4,7 @@ import camandedit.server.workspace.application.command.CheckInviteWorkSpaceComma
 import camandedit.server.workspace.application.command.CreateMeetingRoomCommand;
 import camandedit.server.workspace.application.command.CreateWorkSpaceCommand;
 import camandedit.server.workspace.application.command.InviteWorkSpaceCommand;
+import camandedit.server.workspace.application.dto.MemberProfileResponse;
 import camandedit.server.workspace.application.dto.WorkSpaceMemberListResponse;
 import camandedit.server.workspace.application.dto.WorkSpaceResponse;
 import java.util.List;
@@ -18,30 +19,36 @@ public class WorkSpaceFacade {
   private final GetWorkSpaceUseCase getWorkSpaceUseCase;
   private final CreateMeetingRoomUseCase createMeetingRoomUseCase;
   private final InviteWorkSpaceUseCase inviteWorkSpaceUseCase;
-  public void create(CreateWorkSpaceCommand command){
+
+  public void create(CreateWorkSpaceCommand command) {
     createWorkSpaceUseCase.createWorkSpace(command);
   }
 
-  public List<WorkSpaceResponse> getMyWorkSpaceList(Long userId){
+  public List<WorkSpaceResponse> getMyWorkSpaceList(Long userId) {
     return getWorkSpaceUseCase.getMyWorkSpaceList(userId);
   }
 
-  public WorkSpaceResponse getDetailInfo(Long workSpaceId){
+  public WorkSpaceResponse getDetailInfo(Long workSpaceId) {
     return getWorkSpaceUseCase.getDetail(workSpaceId);
   }
 
-  public void creatMeetingRoom(CreateMeetingRoomCommand command){
+  public void creatMeetingRoom(CreateMeetingRoomCommand command) {
     createMeetingRoomUseCase.create(command);
   }
 
-  public WorkSpaceMemberListResponse getMemberList(Long workSpaceId, Long userId){
+  public WorkSpaceMemberListResponse getMemberList(Long workSpaceId, Long userId) {
     return getWorkSpaceUseCase.getMemberList(workSpaceId, userId);
   }
-  public void invite(InviteWorkSpaceCommand command){
+
+  public void invite(InviteWorkSpaceCommand command) {
     inviteWorkSpaceUseCase.invite(command);
   }
 
-  public void checkInvite(CheckInviteWorkSpaceCommand command){
+  public void checkInvite(CheckInviteWorkSpaceCommand command) {
     inviteWorkSpaceUseCase.checkInvite(command);
+  }
+
+  public MemberProfileResponse getProfile(Long workSpaceId, Long userId) {
+    return getWorkSpaceUseCase.getProfile(workSpaceId, userId);
   }
 }
