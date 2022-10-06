@@ -19,7 +19,7 @@ public class CreateMeetingRoomUseCase {
   @Transactional
   public void create(CreateMeetingRoomCommand command){
     WorkSpace workSpace = workSpaceRepository.findById(command.getWorkSpaceId());
-    workSpaceMemberChecker.checkParticiPateMember(command.getUserId(), workSpace.getId());
+    workSpaceMemberChecker.checkParticipateMember(command.getUserId(), workSpace.getId());
     workSpace.addMeetingRoom(new MeetingRoom(command.getName(), workSpace));
   }
 

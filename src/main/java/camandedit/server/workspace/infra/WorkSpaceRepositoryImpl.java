@@ -1,7 +1,6 @@
 package camandedit.server.workspace.infra;
 
 import camandedit.server.global.exception.NotFoundResourceException;
-import camandedit.server.user.domain.User;
 import camandedit.server.workspace.domain.WorkSpace;
 import camandedit.server.workspace.domain.WorkSpaceMember;
 import camandedit.server.workspace.domain.repository.WorkSpaceRepository;
@@ -27,8 +26,8 @@ public class WorkSpaceRepositoryImpl implements WorkSpaceRepository {
   }
 
   @Override
-  public WorkSpace saveWorkSpace(WorkSpace workSpace) {
-    return jpaWorkSpaceRepository.save(workSpace);
+  public void saveWorkSpace(WorkSpace workSpace) {
+    jpaWorkSpaceRepository.save(workSpace);
   }
 
   @Override

@@ -1,10 +1,12 @@
 package camandedit.server.workspace.infra.query;
 
+import static camandedit.server.user.domain.QUser.*;
 import static camandedit.server.workspace.domain.QMeetingRoom.*;
 import static camandedit.server.workspace.domain.QWorkSpace.*;
 import static camandedit.server.workspace.domain.QWorkSpaceMember.workSpaceMember;
 
 
+import camandedit.server.user.domain.QUser;
 import camandedit.server.workspace.domain.QMeetingRoom;
 import camandedit.server.workspace.domain.WorkSpace;
 import camandedit.server.workspace.domain.WorkSpaceMember;
@@ -36,6 +38,7 @@ public class WorkSpaceQueryRepository {
   public WorkSpace findByIdWithMember(Long workSpaceId) {
     return queryFactory.selectFrom(workSpace)
         .leftJoin(workSpace.workSpaceMembers, workSpaceMember).fetchJoin()
+        .leftJoin(workSpaceMember.user, user).fetchJoin()
         .where(workSpace.id.eq(workSpaceId))
         .fetchOne();
   }

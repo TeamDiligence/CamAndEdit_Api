@@ -1,6 +1,7 @@
 package camandedit.server.workspace.domain;
 
 import camandedit.server.global.common.BaseTimeJpaEntity;
+import camandedit.server.global.exception.AuthorizationFailException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -35,7 +36,7 @@ public class WorkSpace extends BaseTimeJpaEntity {
   private Long adminId;
 
   @OneToMany(mappedBy = "workSpace", cascade = CascadeType.ALL, orphanRemoval = true)
-  private Set<WorkSpaceMember> workSpaceMembers = new HashSet<>();
+  private List<WorkSpaceMember> workSpaceMembers = new ArrayList<>();
 
   @OneToMany(mappedBy = "workSpace", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<MeetingRoom> meetingRoomList = new ArrayList<>();
@@ -58,6 +59,12 @@ public class WorkSpace extends BaseTimeJpaEntity {
 
   public void addMeetingRoom(MeetingRoom meetingRoom){
     meetingRoomList.add(meetingRoom);
+  }
+
+  public void checkAdmin(Long userId){
+    if(userId != this.adminId){
+      throw new AuthorizationFailException("워크스페이스 소유자가 아닙니다.");
+    }
   }
 
 }

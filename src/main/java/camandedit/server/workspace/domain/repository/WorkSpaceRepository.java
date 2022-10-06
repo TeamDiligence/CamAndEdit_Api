@@ -7,7 +7,7 @@ import java.util.List;
 public interface WorkSpaceRepository {
 
   WorkSpace findById(Long workSpaceId);
-  WorkSpace saveWorkSpace(WorkSpace workSpace);
+  void saveWorkSpace(WorkSpace workSpace);
   List<WorkSpace> findAllByUserId(Long userId);
 
   WorkSpace findByIdWithMeetingRoom(Long workSpaceId);

@@ -61,4 +61,13 @@ public class WorkSpaceMember extends BaseTimeJpaEntity {
         .memberRole(MemberRole.ADMIN)
         .build();
   }
+
+  public static WorkSpaceMember createMember(User user, WorkSpace workSpace){
+    return WorkSpaceMember.builder()
+        .user(user)
+        .workSpace(workSpace)
+        .nickname(user.getName())
+        .memberRole(MemberRole.MEMBER)
+        .build();
+  }
 }
