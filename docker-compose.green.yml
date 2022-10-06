@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  api:
+    image: dls3145/camandedit:latest
+    container_name: camapi-green
+    ports:
+      - 4001:8000
+
+networks:
+  default:
+    external:
+      name: camandedit
