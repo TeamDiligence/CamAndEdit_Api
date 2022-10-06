@@ -7,7 +7,7 @@ services:
     environment:
       - PROFILE=dev
     ports:
-      - 4001:8000
+      - 4001:8080
 
 networks:
   default:
