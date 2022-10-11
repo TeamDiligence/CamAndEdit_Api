@@ -54,7 +54,7 @@ public class WorkSpaceMember extends BaseTimeJpaEntity {
     this.memberRole = memberRole;
   }
 
-  public static WorkSpaceMember createAdmin(User user, WorkSpace workSpace){
+  public static WorkSpaceMember createAdmin(User user, WorkSpace workSpace) {
     return WorkSpaceMember.builder()
         .user(user)
         .workSpace(workSpace)
@@ -63,12 +63,17 @@ public class WorkSpaceMember extends BaseTimeJpaEntity {
         .build();
   }
 
-  public static WorkSpaceMember createMember(User user, WorkSpace workSpace){
+  public static WorkSpaceMember createMember(User user, WorkSpace workSpace) {
     return WorkSpaceMember.builder()
         .user(user)
         .workSpace(workSpace)
         .nickname(user.getName())
         .memberRole(MemberRole.MEMBER)
         .build();
+  }
+
+  public void updateProfile(String nickname, String description) {
+    this.nickname = nickname;
+    this.description = description;
   }
 }

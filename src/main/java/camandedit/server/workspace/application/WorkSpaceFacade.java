@@ -4,6 +4,7 @@ import camandedit.server.workspace.application.command.CheckInviteWorkSpaceComma
 import camandedit.server.workspace.application.command.CreateMeetingRoomCommand;
 import camandedit.server.workspace.application.command.CreateWorkSpaceCommand;
 import camandedit.server.workspace.application.command.InviteWorkSpaceCommand;
+import camandedit.server.workspace.application.command.UpdateProfileCommand;
 import camandedit.server.workspace.application.dto.MemberProfileResponse;
 import camandedit.server.workspace.application.dto.WorkSpaceMemberListResponse;
 import camandedit.server.workspace.application.dto.WorkSpaceResponse;
@@ -20,6 +21,7 @@ public class WorkSpaceFacade {
   private final CreateMeetingRoomUseCase createMeetingRoomUseCase;
   private final InviteWorkSpaceUseCase inviteWorkSpaceUseCase;
 
+  private final UpdateProfileUseCase updateProfileUseCase;
   public void create(CreateWorkSpaceCommand command) {
     createWorkSpaceUseCase.createWorkSpace(command);
   }
@@ -50,5 +52,9 @@ public class WorkSpaceFacade {
 
   public MemberProfileResponse getProfile(Long workSpaceId, Long userId) {
     return getWorkSpaceUseCase.getProfile(workSpaceId, userId);
+  }
+
+  public void updateProfile(UpdateProfileCommand command){
+    updateProfileUseCase.updateProfile(command);
   }
 }

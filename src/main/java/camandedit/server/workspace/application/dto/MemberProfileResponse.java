@@ -28,6 +28,7 @@ public class MemberProfileResponse {
         .nickName(workSpaceMember.getNickname())
         .joinDate(workSpaceMember.getCreatedAt())
         .role(workSpaceMember.getMemberRole())
+        .description(workSpaceMember.getDescription())
         .build();
   }
 }
