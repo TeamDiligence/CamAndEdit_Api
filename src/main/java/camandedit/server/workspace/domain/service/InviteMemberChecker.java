@@ -14,14 +14,14 @@ public class InviteMemberChecker {
   private final InviteMemberRepository inviteMemberRepository;
 
   public void checkAlreadyInvite(String email, Long workSpaceId) {
-    InviteMember inviteMember = inviteMemberRepository.findNotInviteMember(workSpaceId, email);
+    InviteMember inviteMember = inviteMemberRepository.findApproveInviteMember(workSpaceId, email);
     if (inviteMember != null) {
       throw new AlreadyInviteEmailException("이미 초대 메일을 보냈습니다.");
     }
   }
 
   public InviteMember checkExistInvite(String email, Long workSpaceId) {
-    InviteMember inviteMember = inviteMemberRepository.findNotInviteMember(workSpaceId, email);
+    InviteMember inviteMember = inviteMemberRepository.findApproveInviteMember(workSpaceId, email);
     if (inviteMember == null) {
       throw new NotFoundResourceException("초대 정보를 확인할 수 없습니다.");
     }

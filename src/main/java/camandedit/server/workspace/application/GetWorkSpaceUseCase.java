@@ -38,7 +38,7 @@ public class GetWorkSpaceUseCase {
 
   public WorkSpaceMemberListResponse getMemberList(Long workSpaceId, Long userId) {
     WorkSpace workSpace = workSpaceRepository.findByIdWithMember(workSpaceId);
-    List<InviteMember> inviteMemberList = inviteMemberRepository.findNotInvitedMemberList(
+    List<InviteMember> inviteMemberList = inviteMemberRepository.findNotApproveMemberList(
         workSpaceId);
 
     return WorkSpaceMemberListResponse.from(workSpace.getWorkSpaceMembers(), inviteMemberList);

@@ -6,6 +6,6 @@ import java.util.List;
 public interface InviteMemberRepository {
 
   void save(InviteMember inviteMember);
-  List<InviteMember> findNotInvitedMemberList(Long workSpaceId);
-  InviteMember findNotInviteMember(Long workSpaceId, String email);
+  List<InviteMember> findNotApproveMemberList(Long workSpaceId);
+  InviteMember findApproveInviteMember(Long workSpaceId, String email);
 }

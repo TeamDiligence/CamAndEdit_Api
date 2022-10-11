@@ -21,12 +21,12 @@ public class InviteMemberRepositoryImpl implements InviteMemberRepository {
   }
 
   @Override
-  public List<InviteMember> findNotInvitedMemberList(Long workSpaceId) {
+  public List<InviteMember> findNotApproveMemberList(Long workSpaceId) {
     return inviteQueryRepository.findAllInviteNotApproveMember(workSpaceId);
   }
 
   @Override
-  public InviteMember findNotInviteMember(Long workSpaceId, String email) {
+  public InviteMember findApproveInviteMember(Long workSpaceId, String email) {
     return inviteQueryRepository.findByEamilAndWorkSpaceId(email,workSpaceId);
   }
 }
