@@ -10,9 +10,11 @@ import camandedit.server.user.domain.service.TokenProvider;
 import camandedit.server.user.domain.service.UserPasswordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class LoginUseCase {
 
   private final UserRepository userRepository;
