@@ -4,6 +4,7 @@ import camandedit.server.global.security.dto.OAuthAttributes;
 import camandedit.server.global.security.dto.OAuthUserPrincipal;
 import camandedit.server.user.domain.AuthProvider;
 import camandedit.server.user.domain.User;
+import camandedit.server.user.domain.repository.UserRepository;
 import camandedit.server.user.infra.jpa.JpaUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
-  private final JpaUserRepository jpaUserRepository;
+  private final UserRepository userRepository;
 
   @Override
   public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -40,9 +41,12 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
   private User saveAndUpdate(OAuthAttributes attributes) {
     String eamil = attributes.getEmail();
     AuthProvider authProvider = attributes.getAuthProvider();
-    User findUser = jpaUserRepository.findByEmailAndAuthProvider(eamil, authProvider)
-        .map((user -> user.updateProfile(attributes.getName(), attributes.getPicture())))
-        .orElseGet(() -> jpaUserRepository.save(attributes.toEntity()));
+    User findUser = userRepository.findByEmailAndAuthProviderNullable(eamil, authProvider);
+    if (findUser == null) {
+      findUser = userRepository.saveUser(attributes.toEntity());
+    } else {
+      findUser.updateProfile(attributes.getName(), attributes.getPicture());
+    }
 
     return findUser;
   }

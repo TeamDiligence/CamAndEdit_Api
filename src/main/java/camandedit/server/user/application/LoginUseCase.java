@@ -1,6 +1,5 @@
 package camandedit.server.user.application;
 
-import camandedit.server.global.exception.InvalidInputException;
 import camandedit.server.global.exception.NotFoundResourceException;
 import camandedit.server.user.application.command.LoginCommand;
 import camandedit.server.user.application.dto.TokenResponse;
@@ -29,7 +28,7 @@ public class LoginUseCase {
   }
 
   private User getUser(String email) {
-    User user = userRepository.findByEmailAndAuthProvider(email,
+    User user = userRepository.findByEmailAndAuthProviderNullable(email,
         AuthProvider.LOCAL);
     if(user == null){
       throw new NotFoundResourceException("해당 유저를 찾을 수 없습니다.");

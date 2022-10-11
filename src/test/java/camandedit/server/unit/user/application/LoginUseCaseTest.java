@@ -45,7 +45,7 @@ public class LoginUseCaseTest {
   @Test
   @DisplayName("없는 유저 로그인 시도 실패")
   public void not_existUser() throws Exception {
-    given(userRepository.findByEmailAndAuthProvider(loginCommand.getEmail(),
+    given(userRepository.findByEmailAndAuthProviderNullable(loginCommand.getEmail(),
         AuthProvider.LOCAL)).willReturn(null);
 
     assertThrows(NotFoundResourceException.class, () ->
@@ -57,7 +57,7 @@ public class LoginUseCaseTest {
   public void not_match_password() throws Exception {
     User user = User.builder().build();
     String accessToken = "accessToken";
-    given(userRepository.findByEmailAndAuthProvider(loginCommand.getEmail(),
+    given(userRepository.findByEmailAndAuthProviderNullable(loginCommand.getEmail(),
         AuthProvider.LOCAL)).willReturn(user);
     given(tokenProvider.createToken(user)).willReturn(accessToken);
 

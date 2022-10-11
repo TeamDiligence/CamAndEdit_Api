@@ -15,8 +15,8 @@ public class UserRepositoryImpl implements UserRepository {
   private final JpaUserRepository jpaUserRepository;
 
   @Override
-  public void saveUser(User user) {
-    jpaUserRepository.save(user);
+  public User saveUser(User user) {
+    return jpaUserRepository.save(user);
   }
 
   @Override
@@ -31,8 +31,9 @@ public class UserRepositoryImpl implements UserRepository {
   }
 
   @Override
-  public User findByEmailAndAuthProvider(String email, AuthProvider authProvider) {
-    return jpaUserRepository.findByEmailAndAuthProvider(email, authProvider)
-        .orElse(null);
+  public User findByEmailAndAuthProviderNullable(String email, AuthProvider authProvider) {
+    User user = jpaUserRepository.findByEmailAndAuthProvider(email, authProvider)
+        .orElseThrow(() -> new NotFoundResourceException("해당 유저를 찾을 수 없습니다."));
+    return user;
   }
 }
