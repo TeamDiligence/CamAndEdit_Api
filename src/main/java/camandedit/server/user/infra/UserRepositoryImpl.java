@@ -33,7 +33,7 @@ public class UserRepositoryImpl implements UserRepository {
   @Override
   public User findByEmailAndAuthProviderNullable(String email, AuthProvider authProvider) {
     User user = jpaUserRepository.findByEmailAndAuthProvider(email, authProvider)
-        .orElseThrow(() -> new NotFoundResourceException("해당 유저를 찾을 수 없습니다."));
+        .orElse(null);
     return user;
   }
 }
