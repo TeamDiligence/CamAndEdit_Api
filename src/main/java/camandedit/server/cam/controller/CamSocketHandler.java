@@ -72,9 +72,10 @@ public class CamSocketHandler implements ChannelInterceptor {
     String destination = accessor.getDestination();
 
     String type = accessor.getFirstNativeHeader("type");
-
-    log.info("[커맨드] = " + command + " [URL] " + destination + " TYPE = " + type + " Session = "
-        + sessionId);
+    if (command != null) {
+      log.info("[커맨드] = " + command + " [URL] " + destination + " TYPE = " + type + " Session = "
+          + sessionId);
+    }
     try {
       if (command != null && command.equals(StompCommand.SUBSCRIBE)) {
         if (isWorkSpaceRequest(type)) {

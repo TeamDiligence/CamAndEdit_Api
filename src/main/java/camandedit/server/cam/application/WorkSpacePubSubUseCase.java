@@ -34,6 +34,7 @@ public class WorkSpacePubSubUseCase {
         .workSpaceId(workSpaceId)
         .nickname(member.getNickname())
         .build());
+    publisherService.sendMeetingRoomCurrentUser(workSpaceId);
   }
 
   @Transactional

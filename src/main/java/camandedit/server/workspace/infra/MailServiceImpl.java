@@ -17,7 +17,8 @@ public class MailServiceImpl implements MailService {
 
   @Override
   public void sendMail(String email, Long workSpaceId) {
-    String redirectUrl = "http://localhost:3000/?email=" + email + "&workSpace=" + workSpaceId;
+    String redirectUrl =
+        "http://localhost:3000/invite?email=" + email + "&workSpace=" + workSpaceId;
     try {
       MimeMessage mimeMessage = javaMailSender.createMimeMessage();
       MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "UTF-8");

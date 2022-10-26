@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class ConnectUserResponse implements Serializable {
 
   private Long userId;
-  private String nickname;
+  private String nickName;
   private String userImage;
 
   public static ConnectUserResponse from(ConnectUser user) {
