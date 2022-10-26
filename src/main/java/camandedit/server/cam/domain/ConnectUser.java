@@ -37,12 +37,16 @@ public class ConnectUser {
     this.workSpaceId = workSpaceId;
   }
 
-  public boolean isSubscribeMeetingRoom(){
+  public boolean isSubscribeMeetingRoom() {
     return meetingRoomId != null;
   }
 
-  public void subMeetingRoom(Long meetingRoomId){
+  public void subMeetingRoom(Long meetingRoomId) {
     this.meetingRoomId = meetingRoomId;
+  }
+
+  public void subSubMeetingRoom() {
+    this.meetingRoomId = null;
   }
 
 }

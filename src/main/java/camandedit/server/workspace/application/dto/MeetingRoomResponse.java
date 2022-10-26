@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MeetingRoomResponse {
 
-  private Long roomId;
+  private Long meetingRoomId;
 
-  private String roomName;
+  private String meetingRoomName;
 
   public static MeetingRoomResponse from(MeetingRoom meetingRoom) {
     return new MeetingRoomResponse(meetingRoom.getId(), meetingRoom.getName());

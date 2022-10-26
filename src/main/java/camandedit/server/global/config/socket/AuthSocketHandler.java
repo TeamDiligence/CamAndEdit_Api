@@ -28,7 +28,7 @@ public class AuthSocketHandler implements ChannelInterceptor {
     StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message,
         StompHeaderAccessor.class);
     StompCommand command = accessor.getCommand();
-    if (command == StompCommand.CONNECT) {
+    if (command != null && command == StompCommand.CONNECT) {
       String token = accessor.getFirstNativeHeader("Authorization");
       Authentication authentication = tokenProvider.getAuthentication(token);
       Long userId = Long.valueOf(authentication.getPrincipal().toString());

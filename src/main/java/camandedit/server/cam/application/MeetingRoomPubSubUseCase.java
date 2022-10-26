@@ -51,9 +51,12 @@ public class MeetingRoomPubSubUseCase {
   public void unSubscribeMeetingRoom(Long roomId, String sessionId) {
     CamMeetingRoom camMeetingRoom = camMeetingRoomRepository.findById(roomId)
         .orElseThrow(() -> new NotFoundResourceException("해당 룸에 대한 세션 정보를 찾을 수 없습니다."));
-
+    ConnectUser connectUser = connectUserRepository.findById(sessionId)
+        .orElseThrow(() -> new NotFoundResourceException("해당 유저를 찾을 수 없습니다."));
     camMeetingRoom.removeUser(sessionId);
+    connectUser.subSubMeetingRoom();
     camMeetingRoomRepository.save(camMeetingRoom);
+    connectUserRepository.save(connectUser);
     publisherService.sendMeetingRoomCurrentUser(camMeetingRoom.getWorkspaceId());
   }
 
