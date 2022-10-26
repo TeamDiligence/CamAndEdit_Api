@@ -24,10 +24,14 @@ public class WorkSpaceSubscriber implements MessageListener {
   @Override
   public void onMessage(Message message, byte[] pattern) {
     String strMessage = (String) redisTemplate.getStringSerializer().deserialize(message.getBody());
-    log.info("[REDIS]에서 데이터를 받았다 !" + strMessage);
+
     try {
       WorkSpacePublisherDto dto = objectMapper.readValue(strMessage,
           WorkSpacePublisherDto.class);
+      log.info(
+          "[REDIS SUBSCRIBE] WORKSPACE_ID = " + dto.getWorkspaceId() + " 데이터 = " + dto.getValue()
+              .toString());
+      ;
       messageTemplate.convertAndSend("/topic/workspace/" + dto.getWorkspaceId(),
           dto);
     } catch (JsonProcessingException e) {
