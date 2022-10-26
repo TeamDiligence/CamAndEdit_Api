@@ -1,5 +1,6 @@
 package camandedit.server.global.config;
 
+import camandedit.server.cam.controller.UserErrorSubscriber;
 import camandedit.server.cam.controller.WorkSpaceSubscriber;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,11 +42,13 @@ public class RedisConfig {
 
   @Bean
   public RedisMessageListenerContainer redisMessageListenerContainer(
-      WorkSpaceSubscriber workSpaceSubscriber) {
+      UserErrorSubscriber userErrorSubscriber, WorkSpaceSubscriber workSpaceSubscriber) {
     RedisMessageListenerContainer redisMessageListenerContainer = new RedisMessageListenerContainer();
     redisMessageListenerContainer.setConnectionFactory(redisConnectionFactory());
     redisMessageListenerContainer.addMessageListener(workSpaceSubscriber,
         new ChannelTopic("/workspace"));
+    redisMessageListenerContainer.addMessageListener(userErrorSubscriber,
+        new ChannelTopic("/user/error"));
     return redisMessageListenerContainer;
   }
 

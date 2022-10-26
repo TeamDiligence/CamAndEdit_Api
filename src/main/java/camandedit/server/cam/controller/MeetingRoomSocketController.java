@@ -66,7 +66,7 @@ public class MeetingRoomSocketController {
   public void handleException(BusinessException exception, @Header("simpUser") SocketUser user) {
     log.error("에러 발생!");
     System.out.println(user.toString());
-    messagingTemplate.convertAndSendToUser(user.getName(), "/user/queue/errors",
-        new SocketErrorResponse(exception.getMessage()));
+    messagingTemplate.convertAndSendToUser(user.getName(), "/queue/errors",
+        new SocketErrorResponse("exception.getMessage()","ㅋㅋ", user.getName()));
   }
 }

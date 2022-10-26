@@ -4,6 +4,8 @@ import camandedit.server.cam.application.PublisherService;
 import camandedit.server.cam.controller.dto.RoomCurrentUserDto;
 import camandedit.server.cam.domain.CamMeetingRoom;
 import camandedit.server.cam.application.dto.RoomCurrentUserResponse;
+import camandedit.server.global.exception.ErrorType;
+import camandedit.server.global.response.SocketErrorResponse;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -33,5 +35,13 @@ public class PublisherServiceImpl implements PublisherService {
           new RoomCurrentUserDto(WorkSpacePublisherType.ROOM_INFO, workSpaceId, new ArrayList<>()));
 
     }
+  }
+
+  @Override
+  public void sendErrorToUser(String sessionId, ErrorType errorType, String message) {
+
+    SocketErrorResponse response = new SocketErrorResponse(message, errorType.toString(),
+        sessionId);
+    redisTemplate.convertAndSend(ChannelTopic.of("/user/error").getTopic(), response);
   }
 }
