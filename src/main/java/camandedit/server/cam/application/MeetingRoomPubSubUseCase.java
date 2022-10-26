@@ -29,7 +29,7 @@ public class MeetingRoomPubSubUseCase {
         .orElseGet(() -> init(roomId));
     ConnectUser connectUser = connectUserRepository.findById(sessionId)
         .orElseThrow(() -> new NotFoundResourceException("해당 유저를 찾을 수 없습니다."));
-    if (isAlreadyUserMeetingRoom(connectUser.getUserId(), roomId)) {
+    if (isAlreadyUserMeetingRoom(connectUser.getUserId())) {
       throw new AlreadyPariticipateCamRoomException("이미 다른 미팅룸에 참여중입니다.");
     }
     camMeetingRoom.addUser(connectUser);
@@ -40,10 +40,10 @@ public class MeetingRoomPubSubUseCase {
     publisherService.sendMeetingRoomCurrentUser(connectUser.getWorkSpaceId());
   }
 
-  private boolean isAlreadyUserMeetingRoom(Long userId, Long roomId) {
+  private boolean isAlreadyUserMeetingRoom(Long userId) {
     List<ConnectUser> allByUserId = connectUserRepository.findAllByUserId(userId);
     return allByUserId.stream().anyMatch(
-        user -> user.getMeetingRoomId() != null && user.getMeetingRoomId().equals(roomId));
+        user -> user.getMeetingRoomId() != null);
   }
 
 
