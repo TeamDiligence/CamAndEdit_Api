@@ -6,6 +6,7 @@ import javax.validation.ConstraintViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -24,8 +25,8 @@ public class GlobalExceptionHandler {
    *  잘못된 형식의 요청
    */
   @ExceptionHandler(value = {HttpMessageNotReadableException.class,
-      HttpRequestMethodNotSupportedException.class})
-  public ResponseEntity<?> handleDateTimeFormatException(HttpMessageNotReadableException e)
+      HttpRequestMethodNotSupportedException.class, MethodArgumentNotValidException.class})
+  public ResponseEntity<?> handleDateTimeFormatException(Exception e)
       throws IOException {
 
     return JsonResponse.fail(ErrorType.INVALID_INPUT, "잘못된 요청입니다.");
