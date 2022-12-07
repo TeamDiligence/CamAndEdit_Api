@@ -1,5 +1,6 @@
 package camandedit.server.cam.domain;
 
+import camandedit.server.global.exception.NotFoundResourceException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +38,12 @@ public class CamMeetingRoom {
         .filter((user) -> user.getSessionId().equals(sessionId))
         .findFirst();
     return findUser.isPresent();
+  }
+
+
+  public ConnectUser getUser(Long userId) {
+    return connectUsers.stream().filter((user) -> user.getUserId().equals(userId))
+        .findAny().orElseThrow(() -> new NotFoundResourceException("해당 유저가 방에 없습니다."));
   }
 
   public void removeUser(String sessionId) {
