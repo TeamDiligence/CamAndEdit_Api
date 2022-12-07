@@ -22,26 +22,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class DocumentController {
 
-  private final CreateDocumentUseCase createDocumentUseCase;
-  private final GetDocumentUseCase getDocumentUseCase;
+    private final CreateDocumentUseCase createDocumentUseCase;
+    private final GetDocumentUseCase getDocumentUseCase;
 
-  @GetMapping("/api/workspace/{id}/documents")
-  public ResponseEntity<?> getDocumentList(@PathVariable("id") Long workspaceId) {
-    List<DocumentResponse> result = getDocumentUseCase.findListByWorkspace(workspaceId);
-    return JsonResponse.okWithData(HttpStatus.OK, "워크스페이스 문서 조회 성공", result);
-  }
 
-  @GetMapping("/api/document/{id}")
-  public ResponseEntity<?> getDocument(@PathVariable("id") Long documentId) {
-    DocumentResponse result = getDocumentUseCase.findOne(documentId);
-    return JsonResponse.okWithData(HttpStatus.OK, "문서 조회 성공", result);
-  }
+    @GetMapping("/api/workspace/{id}/documents")
+    public ResponseEntity<?> getDocumentList(@PathVariable("id") Long workspaceId) {
+        List<DocumentResponse> result = getDocumentUseCase.findListByWorkspace(workspaceId);
+        return JsonResponse.okWithData(HttpStatus.OK, "워크스페이스 문서 조회 성공", result);
+    }
 
-  @PostMapping("/api/document")
-  public ResponseEntity<?> createDocument(@Validated @RequestBody CreateDocumentRequest requestDto,
-      @LoginUser JwtAuthUser user
-  ) {
-    createDocumentUseCase.create(requestDto.toCommand(user.getUserId()));
-    return JsonResponse.ok(HttpStatus.OK, "문서 생성 성공");
-  }
+    @PostMapping("/api/document")
+    public ResponseEntity<?> createDocument(
+        @Validated @RequestBody CreateDocumentRequest requestDto,
+        @LoginUser JwtAuthUser user
+    ) {
+        createDocumentUseCase.create(requestDto.toCommand(user.getUserId()));
+        return JsonResponse.ok(HttpStatus.OK, "문서 생성 성공");
+    }
 }
