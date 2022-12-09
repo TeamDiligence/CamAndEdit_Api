@@ -29,7 +29,7 @@ public class ChatSocketController {
         @Header("simpUser") SocketUser user) {
         WorkSpaceChat chat = chatUseCase.createChat(
             new CreateWorkSpaceChatCommand(user.getUserId(), id, message));
-        messagingTemplate.convertAndSend("/topic/workspace/chat" + id,
+        messagingTemplate.convertAndSend("/topic/workspace/chat/" + id,
             WorkSpaceChatSocketResponse.of(chat));
     }
 }
