@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 public class WorkSpaceChatRepositoryImpl implements WorkSpaceChatRepository {
 
     private final JpaWorkSpaceChatRepository jpaWorkSpaceChatRepository;
+    private final WorkSpaceChatQueryRepository workSpaceChatQueryRepository;
 
     @Override
     public void save(WorkSpaceChat workSpaceChat) {
@@ -18,7 +19,7 @@ public class WorkSpaceChatRepositoryImpl implements WorkSpaceChatRepository {
     }
 
     @Override
-    public List<WorkSpaceChat> findByWorkSpaceId(Long workSpaceId, Long lastId) {
-        return null;
+    public List<WorkSpaceChat> findByWorkSpaceId(Long workSpaceId, Long lastId, int count) {
+        return workSpaceChatQueryRepository.findWorkSpaceChatByLastId(workSpaceId,lastId,count);
     }
 }

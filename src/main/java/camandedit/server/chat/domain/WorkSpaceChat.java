@@ -1,8 +1,7 @@
 package camandedit.server.chat.domain;
 
 import camandedit.server.global.common.BaseTimeJpaEntity;
-import camandedit.server.user.domain.User;
-import camandedit.server.workspace.domain.WorkSpace;
+import camandedit.server.workspace.domain.WorkSpaceMember;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,16 +24,11 @@ public class WorkSpaceChat extends BaseTimeJpaEntity {
     private Long id;
 
     private String message;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    private WorkSpace workSpace;
+    private WorkSpaceMember member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
-
-    public WorkSpaceChat(String message, WorkSpace workSpace, User user) {
+    public WorkSpaceChat(String message, WorkSpaceMember member) {
         this.message = message;
-        this.workSpace = workSpace;
-        this.user = user;
+        this.member = member;
     }
 }
