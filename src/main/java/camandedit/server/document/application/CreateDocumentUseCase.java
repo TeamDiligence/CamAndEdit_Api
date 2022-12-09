@@ -18,7 +18,7 @@ public class CreateDocumentUseCase {
 
   @Transactional
   public void create(CreateDocumentCommand command){
-    WorkSpace workspace = workSpaceRepository.findById(command.getWorkspaceId());
+    WorkSpace workspace = workSpaceRepository.findById(command.getWorkSpaceId());
     Document document = command.toEntity(workspace);
     documentRepository.save(document);
   }

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateDocumentCommand {
 
-  private Long workspaceId;
+  private Long workSpaceId;
   private Long userId;
   private String title;
   private String description;

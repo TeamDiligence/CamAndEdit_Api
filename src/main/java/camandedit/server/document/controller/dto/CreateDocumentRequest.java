@@ -8,12 +8,12 @@ import javax.validation.constraints.Size;
 
 public record CreateDocumentRequest(@NotBlank @Size(min = 1, max = 20) String title,
                                     @NotBlank @Size(min = 1, max = 50) String description,
-                                    @NotNull Long workspaceId) {
+                                    @NotNull Long workSpaceId) {
 
   public CreateDocumentCommand toCommand(Long userId) {
     return CreateDocumentCommand.builder()
         .userId(userId)
-        .workspaceId(workspaceId)
+        .workSpaceId(workSpaceId)
         .description(description)
         .title(title)
         .build();
