@@ -37,8 +37,8 @@ public class SecurityConfig {
 
         // 인증 허용
         http.authorizeRequests()
-            .antMatchers(HttpMethod.POST, "/api/user").permitAll()
-            .antMatchers(HttpMethod.POST, "/api/user/login").permitAll()
+            .antMatchers(HttpMethod.POST, "/api/user", "/api/user/login").permitAll()
+            .antMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
             .antMatchers("/api/**").authenticated()
             .and()
             .apply(new JwtSecurityConfig(tokenProvider));
@@ -53,16 +53,5 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedHeader("*");
-        corsConfiguration.addAllowedMethod("*");
-        corsConfiguration.addAllowedOrigin("http://localhost:3000");
-        corsConfiguration.addAllowedOrigin("http://camandedit.xyz");
-        corsConfiguration.addAllowedOrigin("https://camandedit.xyz");
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration);
-        return source;
-    }
+
 }
