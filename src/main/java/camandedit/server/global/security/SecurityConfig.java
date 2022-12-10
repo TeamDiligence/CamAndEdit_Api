@@ -12,42 +12,57 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-  private final CustomOAuth2UserService customOAuth2UserService;
-  private final OAuthSuccessHandler oAuthSuccessHandler;
-  private final TokenProvider tokenProvider;
-  private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final OAuthSuccessHandler oAuthSuccessHandler;
+    private final TokenProvider tokenProvider;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-  @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-    //설정
-    http.csrf().disable();
-    http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        //설정
+        http.csrf().disable();
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-    http.exceptionHandling()
-        .authenticationEntryPoint(jwtAuthenticationEntryPoint);
+        http.exceptionHandling()
+            .authenticationEntryPoint(jwtAuthenticationEntryPoint);
 
-    // 인증 허용
-    http.authorizeRequests()
-        .antMatchers(HttpMethod.POST, "/api/user").permitAll()
-        .antMatchers(HttpMethod.POST, "/api/user/login").permitAll()
-        .antMatchers("/api/**").authenticated()
-        .and()
-        .apply(new JwtSecurityConfig(tokenProvider));
+        // 인증 허용
+        http.authorizeRequests()
+            .antMatchers(HttpMethod.POST, "/api/user").permitAll()
+            .antMatchers(HttpMethod.POST, "/api/user/login").permitAll()
+            .antMatchers("/api/**").authenticated()
+            .and()
+            .apply(new JwtSecurityConfig(tokenProvider));
 
-    //OAuth
-    http.oauth2Login()
-        .successHandler(oAuthSuccessHandler)
-        .userInfoEndpoint().userService(customOAuth2UserService)
-        .and()
-        .authorizationEndpoint()
-        .baseUri("/oauth");
-    return http.build();
-  }
+        //OAuth
+        http.oauth2Login()
+            .successHandler(oAuthSuccessHandler)
+            .userInfoEndpoint().userService(customOAuth2UserService)
+            .and()
+            .authorizationEndpoint()
+            .baseUri("/oauth");
+        return http.build();
+    }
 
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.addAllowedOrigin("http://localhost:3000");
+        corsConfiguration.addAllowedOrigin("http://camandedit.xyz");
+        corsConfiguration.addAllowedOrigin("https://camandedit.xyz");
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfiguration);
+        return source;
+    }
 }
