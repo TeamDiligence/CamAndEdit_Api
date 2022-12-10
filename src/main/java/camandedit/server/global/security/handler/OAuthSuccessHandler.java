@@ -1,5 +1,6 @@
 package camandedit.server.global.security.handler;
 
+import camandedit.server.global.property.RedirectUrl;
 import camandedit.server.global.security.dto.OAuthUserPrincipal;
 import camandedit.server.user.domain.service.TokenProvider;
 import java.io.IOException;
@@ -18,16 +19,17 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class OAuthSuccessHandler implements AuthenticationSuccessHandler {
 
-  private final TokenProvider tokenProvider;
+    private final TokenProvider tokenProvider;
+    private final RedirectUrl redirectUrlProperty;
 
-  @Override
-  public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-      Authentication authentication) throws IOException, ServletException {
-    OAuthUserPrincipal userPrincipal = (OAuthUserPrincipal) authentication.getPrincipal();
-    String accessToken = tokenProvider.createToken(userPrincipal.getUser());
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+        Authentication authentication) throws IOException, ServletException {
+        OAuthUserPrincipal userPrincipal = (OAuthUserPrincipal) authentication.getPrincipal();
+        String accessToken = tokenProvider.createToken(userPrincipal.getUser());
 
-    response.setStatus(HttpStatus.OK.value());
-    response.sendRedirect("http://localhost:3000/auth?accessToken="+accessToken);
-  }
+        response.setStatus(HttpStatus.OK.value());
+        response.sendRedirect(redirectUrlProperty.getOauth() + accessToken);
+    }
 
 }
