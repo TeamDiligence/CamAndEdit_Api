@@ -5,7 +5,7 @@ services:
     image: dls3145/camandedit:latest
     container_name: camapi-blue
     environment:
-      - PROFILE=dev
+      - PROFILE=${PROFILE}
     ports:
       - 4000:8080
 
