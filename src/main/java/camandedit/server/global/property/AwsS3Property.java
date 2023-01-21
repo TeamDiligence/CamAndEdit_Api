@@ -11,7 +11,8 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties("s3")
 public class AwsS3Property {
 
-  private String accessKey;
-  private String secretKey;
-  private String bucket;
+    private String accessKey;
+    private String secretKey;
+    private String bucket;
+    private String awsUrl;
 }
