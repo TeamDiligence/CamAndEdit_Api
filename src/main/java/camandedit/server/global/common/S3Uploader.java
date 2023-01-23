@@ -20,30 +20,31 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class S3Uploader {
 
-  private final AmazonS3 amazonS3;
-  private final AwsS3Property awsS3Property;
+    private final AmazonS3 amazonS3;
+    private final AwsS3Property awsS3Property;
 
-  public String uploadFile(String directoryPath, MultipartFile multipartFile) {
-    String AWSURL = "https://refill-back.s3.ap-northeast-2.amazonaws.com/";
-    String fileName = createFileName(directoryPath, multipartFile.getOriginalFilename());
-    ObjectMetadata objectMetadata = new ObjectMetadata();
+    public String uploadFile(String directoryPath, MultipartFile multipartFile) {
+        String AWSURL = awsS3Property.getAwsUrl();
+        String fileName = createFileName(directoryPath, multipartFile.getOriginalFilename());
+        ObjectMetadata objectMetadata = new ObjectMetadata();
 
-    objectMetadata.setContentLength(multipartFile.getSize());
-    objectMetadata.setContentType(multipartFile.getContentType());
-    try {
-      InputStream inputStream = multipartFile.getInputStream();
-      amazonS3.putObject(
-          new PutObjectRequest(awsS3Property.getBucket(), fileName, inputStream, objectMetadata));
+        objectMetadata.setContentLength(multipartFile.getSize());
+        objectMetadata.setContentType(multipartFile.getContentType());
+        try {
+            InputStream inputStream = multipartFile.getInputStream();
+            amazonS3.putObject(
+                new PutObjectRequest(awsS3Property.getBucket(), fileName, inputStream,
+                    objectMetadata));
 
-      return AWSURL + fileName;
-    } catch (Exception e) {
-      log.error("업로드 실패");
-      throw new BusinessException("S3 업로드 실패", ErrorType.INTERNAL_SERVER_ERROR);
+            return AWSURL + fileName;
+        } catch (Exception e) {
+            log.error("업로드 실패");
+            throw new BusinessException("S3 업로드 실패", ErrorType.INTERNAL_SERVER_ERROR);
+        }
     }
-  }
 
-  private String createFileName(String directoryPath, String fileNmae) {
-    String convertFilename = Base64.getUrlEncoder().encodeToString(fileNmae.getBytes());
-    return directoryPath + UUID.randomUUID().toString().concat(convertFilename);
-  }
+    private String createFileName(String directoryPath, String fileName) {
+        String convertFilename = Base64.getUrlEncoder().encodeToString(fileName.getBytes());
+        return directoryPath + UUID.randomUUID().toString().concat(convertFilename);
+    }
 }
